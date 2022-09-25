@@ -1,5 +1,5 @@
-Twitter
--------
+# Twitter Filters
+
 The Twitter module allows listing tweets in blocks or pages. Its integration
 with Views opens the door to all sorts of formatting (ie. as an automatic
 slideshow with views_slideshow). It also provides useful input filters to easily

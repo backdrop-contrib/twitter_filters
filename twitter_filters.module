@@ -196,7 +196,6 @@ function twitter_filters_filter_message($message, $usernames = TRUE, $hashtags =
  * Callback for Embedded Tweets.
  */
 function _twitter_filters_filter_embed_tweet($text, $filter) {
-  module_load_include('inc', 'twitter');
 
   // Tags to skip and not recurse into.
   $ignore_tags = 'a|script|style|code|pre';
@@ -225,9 +224,8 @@ function _twitter_filters_filter_embed_tweet($text, $filter) {
         foreach ($tweets as $tweet) {
           $url = $tweet[0];
           $id = $tweet[3];
-          // $embed = twitter_filters_statuses_oembed($id);
-          $embed = '@todo: get embed without oauth';
-          $chunks[$i] = str_replace($url, $embed['html'], $chunks[$i]);
+          $embed = twitter_filters_statuses_embed($tweet);
+          $chunks[$i] = str_replace($url, $embed, $chunks[$i]);
         }
       }
       // Text chunk is done, so next chunk must be a tag.
@@ -253,4 +251,40 @@ function _twitter_filters_filter_embed_tweet($text, $filter) {
   }
 
   return implode($chunks);
+}
+
+/**
+ * Makes embedded tweets out of plain Twitter URLs.
+ *
+ * Callback for preg_replace_callback() within twitter_filter_process().
+ */
+function twitter_filters_statuses_embed($match) {
+  $output = '';
+
+  if (!empty($match)) {
+    $tweet_url = backdrop_encode_path($match[0]);
+    // Prepare new cURL resource
+    $request = curl_init('https://publish.twitter.com/oembed?url=' . $tweet_url);
+    curl_setopt($request, CURLOPT_RETURNTRANSFER,1);
+
+    // Submit the request
+    $json_result = curl_exec($request);
+
+    // Close cURL session handle
+    curl_close($request);
+
+    // Handle curl error
+    if ($json_result === false) {
+      $output = $match[0];
+    } else {
+      $result = backdrop_json_decode($json_result);
+      if (!empty($result['html'])) {
+        $output = $result['html'];
+      }
+      else {
+        $output = $match[0];
+      }
+    }
+  }
+  return $output;
 }
