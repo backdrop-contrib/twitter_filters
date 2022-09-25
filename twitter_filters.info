@@ -1,0 +1,4 @@
+name = Twitter Filters
+description = Adds filters to convert Twitter-style hashtags, usernames, and URLs into links or embeds.
+backdrop = 1.x
+type = module
