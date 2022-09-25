@@ -4,11 +4,6 @@
  * Provides API integration with the Twitter microblogging service.
  */
 
-define ('twitter_filters_HOST',         'https://twitter.com');
-define ('twitter_filters_API',          'https://api.twitter.com');
-define ('twitter_filters_SEARCH',       'https://search.twitter.com');
-define ('twitter_filters_TINYURL',      'http://tinyurl.com');
-define ('twitter_filters_OAUTH_CALLBACK_URL', 'twitter/oauth');
 
 /**
  * Implements hook_filter_info()
@@ -85,7 +80,7 @@ function _twitter_filters_filter_tip_embed_tweet($filter, $format, $long = FALSE
  */
 function _twitter_filters_filter_username($text, $filter = NULL) {
   $prefix = '@';
-  $destination = variable_get('twitter_filters_host', twitter_filters_HOST) . '/';
+  $destination = 'https://twitter.com/';
   return _twitter_filters_filter_text($text, $prefix, $destination);
 }
 
@@ -102,7 +97,7 @@ function _twitter_filters_filter_username($text, $filter = NULL) {
  */
 function _twitter_filters_filter_hashtag($text, $filter = NULL) {
   $prefix = '#';
-  $destination = variable_get('twitter_filters_search', twitter_filters_SEARCH) . '/search?q=%23';
+  $destination = 'https://search.twitter.com/search?q=%23';
   return _twitter_filters_filter_text($text, $prefix, $destination);
 }
 
