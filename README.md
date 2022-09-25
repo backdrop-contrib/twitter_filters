@@ -3,10 +3,10 @@
 Detects plain text hashtags, usernames and Twitter URLs in your content and
 converts them to Twitter links or embeds.
 
-Note: This module has pulled out the filter-specific bits of the larger Twitter
+Note: This module has pulled out the filter-specific bits of the full Twitter
 module for sites that only need the filter-specific functionality without
-requiring the more complex dependency stack with Oembed and Twitter API
-integration. It won't make sense to have both this module and the larger Twitter
+requiring the more complex dependency stack with OAuth and Twitter API
+integration. It won't make sense to have both this module and the full Twitter
 module installed on the same site.
 
 ## Installation
